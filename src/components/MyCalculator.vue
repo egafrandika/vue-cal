@@ -37,9 +37,34 @@ const buttons = [
 ];
 
 const append = (char) => {
-  if (display.value === '0' && char !== '.') {
-    display.value = char;
+  const operators = ['+', '-', '*', '/'];
+  if (display.value === '0') {
+    if (char === '.') {
+      display.value = '0.';
+    } else if (operators.includes(char)) {
+      // Ignore operator if display is at initial state
+      return;
+    } else {
+      display.value = char;
+    }
   } else {
+    if (operators.includes(char) && operators.includes(display.value.slice(-1))) {
+      return;
+    }
+    // Prevent multiple dots in the current number
+    if (char === '.') {
+      // Find the last operator in the display
+      const lastOperatorIndex = Math.max(
+        display.value.lastIndexOf('+'),
+        display.value.lastIndexOf('-'),
+        display.value.lastIndexOf('*'),
+        display.value.lastIndexOf('/')
+      );
+      const currentNumber = display.value.slice(lastOperatorIndex + 1);
+      if (currentNumber.includes('.')) {
+        return;
+      }
+    }
     display.value += char;
   }
 };
