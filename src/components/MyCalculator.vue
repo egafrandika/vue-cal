@@ -42,7 +42,6 @@ const append = (char) => {
     if (char === '.') {
       display.value = '0.';
     } else if (operators.includes(char)) {
-      // Ignore operator if display is at initial state
       return;
     } else {
       display.value = char;
@@ -51,9 +50,7 @@ const append = (char) => {
     if (operators.includes(char) && operators.includes(display.value.slice(-1))) {
       return;
     }
-    // Prevent multiple dots in the current number
     if (char === '.') {
-      // Find the last operator in the display
       const lastOperatorIndex = Math.max(
         display.value.lastIndexOf('+'),
         display.value.lastIndexOf('-'),
